@@ -1,23 +1,36 @@
 @echo off
+title TechCourse Finder - Upload to GitHub
 echo ========================================================
-echo   TechCourse Finder - Sync and Push to GitHub
+echo   TechCourse Finder - Sync and Upload to GitHub
 echo ========================================================
 echo.
-cd /d "%~dp0"
+cd /d "C:\Users\Arvind Tak\OneDrive\Documents"
+
+echo Checking repository status...
 "C:\Program Files\Git\cmd\git.exe" add .
-"C:\Program Files\Git\cmd\git.exe" commit -m "Update TechCourse Finder v2.0"
+"C:\Program Files\Git\cmd\git.exe" commit -m "Upload 5,050 courses and website v2.0" 2>nul
+
 echo.
-echo Pushing to GitHub repository (arvindtak08-a11y/techcourse-finder)...
-echo If a GitHub login window appears, please sign in.
+echo ========================================================
+echo Uploading 5,050 courses to your GitHub repository...
+echo If a GitHub popup opens in your browser, click 'Authorize'.
+echo ========================================================
 echo.
+
 "C:\Program Files\Git\cmd\git.exe" push origin main
+
 echo.
 if %ERRORLEVEL% EQU 0 (
     echo ========================================================
-    echo   SUCCESS! All files have been uploaded to GitHub!
+    echo   SUCCESS! All 5,050 courses are now uploaded to GitHub!
+    echo   Your website will update at:
+    echo   https://arvindtak08-a11y.github.io/techcourse-finder/
     echo ========================================================
 ) else (
-    echo.
-    echo If the push did not complete, you may need to log in to GitHub in your browser.
+    echo ========================================================
+    echo   If GitHub asked you to sign in, please complete the
+    echo   sign-in in your browser, then run this file again.
+    echo ========================================================
 )
+echo.
 pause
