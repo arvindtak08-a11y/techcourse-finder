@@ -1,0 +1,24 @@
+{
+  "name": "techcourse-finder",
+  "version": "2.0.0",
+  "description": "Scalable technology certification course discovery platform supporting 5,000+ courses.",
+  "scripts": {
+    "test": "node scripts/run-all-tests.js",
+    "validate": "node scripts/manage-catalog.js validate",
+    "duplicates": "node scripts/manage-catalog.js duplicates",
+    "stats": "node scripts/manage-catalog.js stats",
+    "generate": "node scripts/generate-catalog.js",
+    "import:sql": "node scripts/import-pipeline.js sql",
+    "import:upload": "node scripts/import-pipeline.js upload"
+  },
+  "keywords": [
+    "education",
+    "courses",
+    "certifications",
+    "supabase",
+    "postgres",
+    "learning-platform"
+  ],
+  "author": "TechCourse Finder Team",
+  "license": "MIT"
+}

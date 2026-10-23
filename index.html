@@ -3,84 +3,205 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Discover technology courses and certifications by topic, price and skill level.">
-  <title>TechCourse Finder — Find your next tech skill</title>
+  <meta name="description" content="Discover technology courses and certifications by topic, price and skill level across 5,000+ listings.">
+  <title>TechCourse Finder — Discover 5,000+ Tech Certifications</title>
   <link rel="stylesheet" href="styles.css">
-  <script defer src="courses.js"></script>
+  <!-- Application Config & Data Pipeline -->
+  <script src="config.js"></script>
+  <script src="courses-data.js"></script>
+  <script src="courses.js"></script>
+  <!-- Supabase Client for optional persistent cloud database -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="app.js"></script>
 </head>
 <body id="top">
   <header class="site-header">
     <a class="brand" href="#top" aria-label="TechCourse Finder home"><span class="brand-mark">T</span><span>TechCourse<span class="brand-accent">Finder</span></span></a>
     <nav><a href="#explore">Explore</a><a href="#categories">Categories</a><a href="#about">About</a></nav>
-    <a class="header-cta" href="#explore">Find a course <span>↗</span></a>
+    <div class="header-actions">
+      <button id="header-roadmap-btn" class="roadmap-btn" type="button" aria-label="Free Career Roadmap">🎁 Free Roadmaps</button>
+      <a class="header-cta" href="#explore">Find a course <span>↗</span></a>
+    </div>
   </header>
 
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR NEXT SKILL STARTS HERE</div>
+        <div class="eyebrow"><span class="eyebrow-dot"></span> 5,000+ VERIFIED LEARNING PATHS</div>
         <h1>Find your next<br><span>tech certification.</span></h1>
-        <p class="hero-text">A simpler way to discover learning paths across AI, data, programming, cloud and cybersecurity — all in one place.</p>
+        <p class="hero-text">A scalable, independent directory to discover learning paths across AI, cloud, software engineering, cybersecurity, and data science — all in one place.</p>
         <form id="hero-search" class="search-bar">
           <span class="search-icon" aria-hidden="true">⌕</span>
-          <input id="search" type="search" placeholder="Search Python, AI, cloud, cybersecurity..." aria-label="Search courses">
+          <input id="search" type="search" placeholder="Search Python, AWS, Docker, Kubernetes, AI..." aria-label="Search courses">
           <button type="submit">Search <span>→</span></button>
         </form>
-        <div class="hero-proof"><span class="proof-avatars">✦ ◈ ◎</span><span>Explore trusted learning providers</span><span class="proof-separator">·</span><span>Free and paid options</span></div>
+        <div class="hero-proof"><span class="proof-avatars">✦ ◈ ◎</span><span>Trusted learning providers & universities</span><span class="proof-separator">·</span><span>Free and paid certifications</span></div>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
         <div class="art-glow"></div>
         <div class="art-core"><span class="core-bracket">&lt;/&gt;</span><span class="core-label">LEARN · BUILD · GROW</span></div>
-        <div class="float-card card-ai"><span class="float-icon purple">✳</span><span><b>Artificial Intelligence</b><small>Explore new possibilities</small></span></div>
-        <div class="float-card card-code"><span class="float-icon green">⌘</span><span><b>Programming</b><small>Build practical skills</small></span></div>
-        <div class="float-card card-cloud"><span class="float-icon orange">☁</span><span><b>Cloud & DevOps</b><small>Learn at your pace</small></span></div>
+        <div class="float-card card-ai"><span class="float-icon purple">✳</span><span><b>Artificial Intelligence</b><small>500+ specialized tracks</small></span></div>
+        <div class="float-card card-code"><span class="float-icon green">⌘</span><span><b>Programming & DevOps</b><small>Hands-on practical code</small></span></div>
+        <div class="float-card card-cloud"><span class="float-icon orange">☁</span><span><b>Cloud Architecture</b><small>AWS, Azure, GCP</small></span></div>
         <div class="art-spark spark-one">✦</div><div class="art-spark spark-two">✧</div>
       </div>
     </section>
 
     <section class="stats-row" aria-label="Platform highlights">
-      <div><strong id="total-count">30</strong><span>course listings</span></div>
-      <div><strong>12</strong><span>tech categories</span></div>
-      <div><strong>100%</strong><span>external learning links</span></div>
-      <div class="stats-note">Independent course discovery<br><b>Learn directly from providers ↗</b></div>
+      <div><strong id="total-count">5,000+</strong><span>course listings</span></div>
+      <div><strong id="domains-count">10</strong><span>tech domains</span></div>
+      <div><strong>100%</strong><span>official learning links</span></div>
+      <div class="stats-note">High-performance scalable directory<br><b>Direct provider enrollment ↗</b></div>
     </section>
 
     <section class="categories-section" id="categories">
-      <div class="section-heading"><div><div class="eyebrow">EXPLORE BY INTEREST</div><h2>Pick your tech path.</h2></div><p>Start with a topic that excites you.<br>Discover courses at your own pace.</p></div>
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">EXPLORE BY DOMAIN</div>
+          <h2>Pick your tech path.</h2>
+        </div>
+        <p>Choose an area of interest to instantly filter 5,000+ courses.<br>Discover learning options at your own pace.</p>
+      </div>
       <div id="category-grid" class="category-grid"></div>
     </section>
 
     <section class="catalogue-section" id="explore">
-      <div class="section-heading catalogue-heading"><div><div class="eyebrow">THE COURSE CATALOGUE</div><h2>Find the right course.</h2><p class="section-subtitle">Filter by cost, skill level or provider to find your next step.</p></div><div class="catalogue-count"><strong id="result-count">30</strong><span>listings</span></div></div>
+      <div class="section-heading catalogue-heading">
+        <div>
+          <div class="eyebrow">THE COURSE CATALOGUE</div>
+          <h2>Find the right course.</h2>
+          <p class="section-subtitle">Filter by cost, skill level, certificate status, or provider to find your next step.</p>
+        </div>
+        <div class="catalogue-count"><strong id="result-count">5,050</strong><span>listings</span></div>
+      </div>
       <div class="catalogue-layout">
         <aside class="filters" aria-label="Course filters">
           <div class="filter-title"><h3>Filters</h3><button id="clear-filters" class="text-button">Clear all</button></div>
           <div class="filter-group"><label for="category-filter">Category</label><select id="category-filter"><option value="">All categories</option></select></div>
-          <div class="filter-group"><label for="price-filter">Price</label><select id="price-filter"><option value="">Free + paid</option><option>Free</option><option>Paid</option></select></div>
-          <div class="filter-group"><label for="level-filter">Skill level</label><select id="level-filter"><option value="">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
-          <div class="filter-group"><label for="certificate-filter">Certificate status</label><select id="certificate-filter"><option value="">Any status</option><option>Certificate available</option><option>Unverified</option><option>No certificate</option></select></div>
+          <div class="filter-group"><label for="price-filter">Price</label><select id="price-filter"><option value="">Free + paid</option><option value="Free">Free</option><option value="Paid">Paid</option></select></div>
+          <div class="filter-group"><label for="level-filter">Skill level</label><select id="level-filter"><option value="">All levels</option><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option></select></div>
+          <div class="filter-group"><label for="certificate-filter">Certificate status</label><select id="certificate-filter"><option value="">Any status</option><option value="Certificate available">Certificate available</option><option value="Unverified">Unverified</option><option value="No certificate">No certificate</option></select></div>
           <div class="filter-group"><label for="provider-filter">Provider</label><select id="provider-filter"><option value="">All providers</option></select></div>
           <div class="filter-group"><label for="sort-filter">Sort by</label><select id="sort-filter"><option value="recommended">Recommended</option><option value="title">Title A–Z</option><option value="provider">Provider A–Z</option></select></div>
-          <div class="filter-tip"><span>✦</span><p><b>New to tech?</b><br>Try a beginner course and build your skills one step at a time.</p></div>
+          <div class="filter-tip"><span>✦</span><p><b>New to tech?</b><br>Filter by "Beginner" & "Free" to build your skills step-by-step.</p></div>
         </aside>
         <div class="results-area">
           <div class="active-filters" id="active-filters"></div>
+          <div id="loading-spinner" class="loading-spinner" hidden aria-live="polite">
+            <span class="spinner-circle"></span> Filtering 5,000+ courses...
+          </div>
           <div id="course-grid" class="course-grid" aria-live="polite"></div>
-          <div id="empty-state" class="empty-state" hidden><div class="empty-icon">⌕</div><h3>No courses found</h3><p>Try changing your search or clearing some filters.</p><button id="empty-clear" class="primary-button">Clear filters</button></div>
-          <div class="results-footer" id="results-footer"><span id="results-summary">Showing courses</span><span>Course details may change at the provider site.</span></div>
+          <div id="pagination-controls" class="pagination-controls"></div>
+          <div id="empty-state" class="empty-state" hidden>
+            <div class="empty-icon">⌕</div>
+            <h3>No courses found</h3>
+            <p>Try changing your search keywords or clearing some filters.</p>
+            <button id="empty-clear" class="primary-button">Clear all filters</button>
+          </div>
+          <div class="results-footer" id="results-footer"><span id="results-summary">Showing courses</span><span>Course details and pricing may change at the provider site.</span></div>
         </div>
       </div>
     </section>
 
-    <section class="cta-section" id="about"><div class="cta-symbol">✦</div><div><div class="eyebrow">YOUR LEARNING JOURNEY</div><h2>Small steps. Real skills.</h2><p>Compare learning options, choose your path and keep moving forward.</p></div><a href="#explore" class="cta-link">Explore courses <span>→</span></a></section>
+    <section class="cta-section" id="about">
+      <div class="cta-symbol">✦</div>
+      <div>
+        <div class="eyebrow">CONTINUOUS LEARNING</div>
+        <h2>Small steps. Real skills.</h2>
+        <p>Compare verified learning paths, choose your certification, and level up your career.</p>
+      </div>
+      <a href="#explore" class="cta-link">Explore catalogue <span>→</span></a>
+    </section>
   </main>
-  <footer class="footer"><a class="brand" href="#top"><span class="brand-mark">T</span><span>TechCourse<span class="brand-accent">Finder</span></span></a><p>Discover learning. Build your future.</p><div class="footer-bottom"><span>© <span id="year"></span> TechCourse Finder · Student project</span><span>Independent directory · Not affiliated with listed providers</span></div></footer>
 
+  <footer class="footer">
+    <a class="brand" href="#top"><span class="brand-mark">T</span><span>TechCourse<span class="brand-accent">Finder</span></span></a>
+    <p>Discover technology courses. Build your future.</p>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> TechCourse Finder · Supporting 5,000+ courses</span>
+      <span>Independent directory · Verified provider links · Not affiliated with listed institutions</span>
+    </div>
+  </footer>
+
+  <!-- Course Details Modal Dialog -->
   <dialog id="course-dialog" class="course-dialog" aria-modal="true" aria-labelledby="dialog-title">
     <button class="dialog-close" id="dialog-close" aria-label="Close details">×</button>
     <div id="dialog-content"></div>
+  </dialog>
+
+  <!-- Visitor Information Prompt Dialog (Lead Capture - 10 Second Prompt) -->
+  <dialog id="visitor-dialog" class="visitor-dialog" aria-modal="true" aria-labelledby="visitor-title">
+    <button class="dialog-close" id="visitor-close" aria-label="Close prompt">×</button>
+    <div class="visitor-dialog-body">
+      <div class="visitor-badge">🎁 Free Student & Job Seeker Guide</div>
+      <h2 id="visitor-title" class="visitor-title">Get Personalized Certification Roadmaps</h2>
+      <p class="visitor-subtitle">
+        Join over 15,000 learners receiving curated course roadmaps, free certification alerts, and discount notifications.
+      </p>
+
+      <form id="visitor-form" class="visitor-form" novalidate>
+        <!-- Honeypot anti-spam field -->
+        <input type="text" name="b_website" class="honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="form-group">
+          <label for="visitor-name">Your Full Name <span class="required">*</span></label>
+          <input type="text" id="visitor-name" name="name" required placeholder="e.g. Alex Sharma" autocomplete="name">
+          <span class="field-error" id="name-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="visitor-email">Email Address <span class="required">*</span></label>
+          <input type="email" id="visitor-email" name="email" required placeholder="alex@example.com" autocomplete="email">
+          <span class="field-error" id="email-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="visitor-phone">Phone Number <span class="optional">(Optional - for WhatsApp alerts)</span></label>
+          <input type="tel" id="visitor-phone" name="phone" placeholder="+1 (555) 000-0000" autocomplete="tel">
+        </div>
+
+        <div class="form-group">
+          <label for="visitor-category">Preferred Learning Interest</label>
+          <select id="visitor-category" name="preferred_category">
+            <option value="Artificial Intelligence and Machine Learning">Artificial Intelligence & Machine Learning</option>
+            <option value="Cloud Computing and DevOps">Cloud Computing & DevOps</option>
+            <option value="Programming and Software Development">Programming & Software Development</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Data Science and Data Analytics">Data Science & Data Analytics</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Mobile App Development">Mobile App Development</option>
+            <option value="Blockchain and Web3">Blockchain & Web3</option>
+            <option value="Internet of Things">Internet of Things</option>
+            <option value="Databases and IT">Databases & IT</option>
+          </select>
+        </div>
+
+        <div class="consent-group">
+          <label class="consent-label">
+            <input type="checkbox" id="visitor-consent" name="consent" required checked>
+            <span>I agree to receive course recommendations, scholarship alerts, and learning roadmaps. You can unsubscribe anytime.</span>
+          </label>
+          <span class="field-error" id="consent-error"></span>
+        </div>
+
+        <div class="privacy-note">
+          🔒 <b>Privacy Commitment:</b> Your information is never sold, shared with advertisers, or used for spam. We only send relevant educational resources.
+        </div>
+
+        <div class="visitor-actions">
+          <button type="submit" id="visitor-submit-btn" class="primary-button visitor-submit">Send My Free Roadmaps <span>→</span></button>
+          <button type="button" id="visitor-dismiss-btn" class="text-button visitor-dismiss">Maybe later, let me browse</button>
+        </div>
+      </form>
+
+      <div id="visitor-success" class="visitor-success" hidden>
+        <div class="success-icon">✓</div>
+        <h3>You're All Set!</h3>
+        <p>Thank you! Your personalized learning roadmap and certification updates are registered. You can continue discovering courses below.</p>
+        <button type="button" id="visitor-continue-btn" class="primary-button">Continue Browsing Courses</button>
+      </div>
+    </div>
   </dialog>
 </body>
 </html>
